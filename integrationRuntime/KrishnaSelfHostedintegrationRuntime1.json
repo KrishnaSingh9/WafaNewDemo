@@ -1,0 +1,6 @@
+{
+	"name": "KrishnaSelfHostedintegrationRuntime1",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

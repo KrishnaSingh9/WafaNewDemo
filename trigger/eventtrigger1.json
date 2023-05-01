@@ -1,0 +1,19 @@
+{
+	"name": "eventtrigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/adfdemo/blobs/input/",
+			"blobPathEndsWith": ".txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/60716e47-9735-4f5e-9b0e-9797124f03c3/resourceGroups/Demo1/providers/Microsoft.Storage/storageAccounts/storagekrishna009",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}

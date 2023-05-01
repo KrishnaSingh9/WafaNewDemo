@@ -1,0 +1,27 @@
+{
+	"name": "Output_foreachloopBinary1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().FolderName",
+					"type": "Expression"
+				},
+				"container": "adfdemo"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

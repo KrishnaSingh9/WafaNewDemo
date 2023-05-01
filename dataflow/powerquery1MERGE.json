@@ -1,0 +1,28 @@
+{
+	"name": "powerquery1MERGE",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "DelimitedText14",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DelimitedText14",
+					"dataset": {
+						"referenceName": "DelimitedText14",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "DelimitedText15",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DelimitedText15",
+					"dataset": {
+						"referenceName": "DelimitedText15",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared DelimitedText14 = let AdfDoc = AzureStorage.BlobContents(\"https://storagekrishna009.blob.core.windows.net/adfdemo/Input/employee.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]),\r\n  #\"Merged queries\" = Table.NestedJoin(PromotedHeaders, {\"empid\"}, DelimitedText15, {\"ID\"}, \"DelimitedText15\", JoinKind.Inner),\r\n  #\"Removed columns\" = Table.RemoveColumns(#\"Merged queries\", {\"DelimitedText15\"}) in  #\"Removed columns\";\r\nshared DelimitedText15 = let AdfDoc = AzureStorage.BlobContents(\"https://storagekrishna009.blob.core.windows.net/adfdemo/Input/Employee_WINDOW.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"DelimitedText14\",\r\n  #\"Merged queries\" = Table.NestedJoin(Source, {\"empid\"}, DelimitedText15, {\"ID\"}, \"DelimitedText15\", JoinKind.Inner),\r\n  #\"Expanded DelimitedText15\" = Table.ExpandTableColumn(#\"Merged queries\", \"DelimitedText15\", {\"ID\", \"NAME\", \"GENDER\", \"COUNTRY\", \"SALARY\", \"DEP\"}, {\"ID\", \"NAME.1\", \"GENDER.1\", \"COUNTRY.1\", \"SALARY\", \"DEP\"}) in #\"Expanded DelimitedText15\";\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}
